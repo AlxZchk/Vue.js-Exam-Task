@@ -18,6 +18,8 @@ export default {
         reader.onload = function(evt) {
           const contents = evt.target.result;
           const data = JSON.parse(contents);
+          self.$store.commit('set', { key: 'sortField', value: null });
+          self.$store.commit('set', { key: 'sortDirection', value: '+' });
           self.$store.commit('set', { key: 'curPage', value: 1 });
           self.$store.commit('set', { key: 'perPage', value: 5 });
           self.$store.commit('set', { key: 'searchText', value: '' });

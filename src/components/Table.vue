@@ -2,7 +2,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th v-for="(field, index) in fields" :key="`f${index}`">
+				<th v-for="(field, index) in fields" :key="`f${index}`" @click="changeSort(field)">
 					{{ field }}
 				</th>
 			</tr>
@@ -24,7 +24,7 @@
 		name: 'Table',
 
 		computed: {
-			...mapState(['searchText']),
+			...mapState(['searchText', 'sortField', 'sortDirection']),
 			...mapGetters(['fields', 'rows']),
 		},
 
@@ -35,6 +35,9 @@
 					'<i>$1</i>',
 				);
 			},
+			changeSort(rowName) {
+				this.$store.commit('changeSort', rowName);
+			}
 		},
 	};
 </script>

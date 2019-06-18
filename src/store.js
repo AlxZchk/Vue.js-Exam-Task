@@ -9,6 +9,8 @@ const initialState = {
 	curPage: 1,
 	perPage: 5,
 	searchText: '',
+	sortField: null,
+	sortDirection: '+',
 };
 
 export default new Vuex.Store({
@@ -17,18 +19,29 @@ export default new Vuex.Store({
 		curPage: 1,
 		perPage: 5,
 		searchText: '',
+		sortField: null,
+		sortDirection: '+',
 	},
 	getters: {
 		fields: state => Object.keys(state.data[0]),
 
 		filteredData: state => {
-			return state.data.filter(
+			const filteredData = state.data.filter(
 				e =>
 					Object.values(e)
 						.join('~')
 						.toLowerCase()
 						.indexOf(state.searchText.toLowerCase()) > -1,
 			);
+
+			if (state.sortField === null) {
+				return filteredData;
+			} else {
+				return filteredData.sort((a, b) => {
+					const res = b[state.sortField].toString().localeCompare(a[state.sortField].toString());
+					return state.sortDirection === '-' ? res : -res;
+				});
+			}
 		},
 
 		rows: (state, getters) => {
@@ -39,6 +52,14 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		set: (state, { key, value }) => (state[key] = value),
+		changeSort: (state, rowName) => {
+			if (state.sortField !== rowName) {
+				state.sortField = rowName;
+				state.sortDirection = '+';
+			} else {
+				state.sortDirection = state.sortDirection === '+' ? '-' : '+';
+			}
+		}
 	},
 	actions: {},
 });
