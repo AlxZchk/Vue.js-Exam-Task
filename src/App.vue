@@ -1,7 +1,8 @@
 <template>
 	<div id="app">
-		<div class="upload-button">
+		<div class="app-top">
 			<UploadFile></UploadFile>
+			<Info></Info>
 		</div>
 		<div class="app-header">
 			<ShowItems />
@@ -23,7 +24,7 @@
 	import SearchItems from '@/components/SearchItems.vue';
 	import Pagination from '@/components/Pagination.vue';
 	import UploadFile from '@/components/UploadFile.vue'
-	// import Info from '@/components/Info.vue';
+	import Info from '@/components/Info.vue';
 
 	export default {
 		name: 'App',
@@ -33,7 +34,7 @@
 			SearchItems,
 			Pagination,
 			UploadFile,
-			// Info,
+			Info,
 		},
 	};
 </script>
@@ -53,7 +54,10 @@
 		padding: 8px 2px;
 	}
 
-	.app-upload {
+	.app-top {
 		padding: 10px 0;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between
 	}
 </style>

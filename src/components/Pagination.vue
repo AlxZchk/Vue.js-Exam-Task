@@ -91,14 +91,17 @@
 		methods: {
 			setCurPage(n) {
 				this.$store.commit('set', { key: 'curPage', value: n });
+				this.$router.push(`/page/${n}`);
 			},
 
 			prevPage() {
 				this.$store.commit('set', { key: 'curPage', value: this.curPage - 1 });
+				this.$router.push(`/page/${this.curPage - 1}`);
 			},
 
 			nextPage() {
 				this.$store.commit('set', { key: 'curPage', value: this.curPage + 1 });
+				this.$router.push(`/page/${this.curPage + 1}`);
 			},
 		},
 	};

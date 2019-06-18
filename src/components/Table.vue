@@ -2,7 +2,14 @@
 	<table>
 		<thead>
 			<tr>
-				<th v-for="(field, index) in fields" :key="`f${index}`" @click="changeSort(field)">
+				<th 
+					v-for="(field, index) in fields" :key="`f${index}`"
+					@click="changeSort(field)"
+					v-bind:class="{ 
+							sortArrowUp: sortDirection === '+' && sortField === field,
+						 	sortArrowDown: sortDirection === '-' && sortField === field
+						}"
+				>
 					{{ field }}
 				</th>
 			</tr>
@@ -37,8 +44,11 @@
 			},
 			changeSort(rowName) {
 				this.$store.commit('changeSort', rowName);
-			}
+			},
 		},
+		created() {
+			this.$store.commit('set', { key: 'curPage', value: Number(this.$route.params.id) });
+		}
 	};
 </script>
 
@@ -91,6 +101,7 @@
 	td,
 	th {
 		padding: 8px;
+		position: relative;
 	}
 
 	i {
@@ -98,4 +109,39 @@
 		font-style: normal;
 		background-color: yellow;
 	}
+
+	.sortArrowUp, .sortArrowDown {
+            position: relative;
+        }
+        .sortArrowUp::after {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            vertical-align: .255em;
+            content: "";
+            border-top: 0;
+            border-right: .3em solid transparent;
+            border-bottom: .3em solid #000;
+            border-left: .3em solid transparent;
+        }
+
+        .sortArrowDown::after {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            vertical-align: .255em;
+            content: "";
+            border-top: .3em solid #000;
+            border-right: .3em solid transparent;
+            border-bottom: 0;
+            border-left: .3em solid transparent;
+        }
 </style>
