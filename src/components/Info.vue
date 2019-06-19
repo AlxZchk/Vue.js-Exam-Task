@@ -6,6 +6,7 @@
     <p> Current page: <span>{{curPage}}</span></p>
     <p> Items per page: <span>{{perPage}}</span></p>
     <p> Data length: <span>{{data.length}}</span></p>
+    <p> Data array: <span>{{(curPage - 1) * perPage}} - {{ curPage * perPage - 1}}</span></p>
   </div>
 </template>
 

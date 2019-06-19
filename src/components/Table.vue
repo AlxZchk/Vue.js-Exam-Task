@@ -15,7 +15,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="(row, index) in rows" :key="`r${index}`">
+			<tr 
+				v-for="(row, index) in rows" :key="`r${index}`"
+				@dblclick="editHandler(row)"
+			>
 				<td v-for="(item, key) in row" :key="`d${key}`">
 					<span v-html="replaceText(item.toString())" />
 				</td>
@@ -45,6 +48,9 @@
 			changeSort(rowName) {
 				this.$store.commit('changeSort', rowName);
 			},
+			editHandler(row) {
+				this.$emit('edit', row);
+			}
 		},
 		created() {
 			this.$store.commit('set', { key: 'curPage', value: Number(this.$route.params.id) });

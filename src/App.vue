@@ -9,12 +9,18 @@
 			<SearchItems />
 		</div>
 
-		<TableData />
+		<TableData @edit="editHandler" />
 
 		<div class="app-footer">
 			<!-- <Info /> -->
 			<Pagination />
 		</div>
+		<EditModal 
+			v-if="isModalShown" 
+			:item="editItem"
+			@sumbitModal="submitModal"
+			@cancelModal="cancelModal"
+		></EditModal>
 	</div>
 </template>
 
@@ -25,9 +31,17 @@
 	import Pagination from '@/components/Pagination.vue';
 	import UploadFile from '@/components/UploadFile.vue'
 	import Info from '@/components/Info.vue';
+	import EditModal from '@/components/EditModal.vue';
 
 	export default {
 		name: 'App',
+		data() {
+			return {
+				isModalShown: false,
+				editItem: null,
+				editItemSave: null,
+			}
+		},
 		components: {
 			TableData,
 			ShowItems,
@@ -35,7 +49,26 @@
 			Pagination,
 			UploadFile,
 			Info,
+			EditModal,
 		},
+		methods: {
+			editHandler(row) {
+				this.editItem = { ...row };
+				this.editItemSave = { ...row };
+				this.isModalShown = true;
+			},
+			cancelModal() {
+				this.editItem = null;
+				this.editItemSave = null;
+				this.isModalShown = false;
+			},
+			submitModal(result) {
+				this.$store.commit('editItem', { oldItem: this.editItemSave, editedItem: result });
+				this.editItem = null;
+				this.editItemSave = null;
+				this.isModalShown = false;
+			}
+		}
 	};
 </script>
 

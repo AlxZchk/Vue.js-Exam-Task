@@ -59,6 +59,18 @@ export default new Vuex.Store({
 			} else {
 				state.sortDirection = state.sortDirection === '+' ? '-' : '+';
 			}
+		},
+		editItem: (state, data) => {
+			const { oldItem, editedItem } = data;
+			let index = null;
+			state.data.forEach((item, idx) => {
+				const keys = Object.keys(item);
+				const isExactItem = keys.every((key) => item[key] === oldItem[key]);
+				if (isExactItem) { index = idx; }
+			})
+
+			const newData = state.data.map((item, idx) => idx === index ? editedItem : item);
+			if (index !== null) { state.data = newData; }
 		}
 	},
 	actions: {},
